@@ -18,6 +18,7 @@
 
 #include "device.h"
 #include "driver.h"
+#include "logic/print.h"
 #include "lowlevel/platinum.h"
 #include "protocol/platinum.h"
 
@@ -64,6 +65,8 @@ corsairlink_platinum_temperature(
     double* temperature )
 {
     int rr;
+    int messageLength = 0x40;
+
     uint8_t response[64];
     uint8_t commands[64];
     memset( response, 0, sizeof( response ) );
@@ -72,10 +75,24 @@ corsairlink_platinum_temperature(
     commands[0x00] = 0x3F;
     commands[0x01] = 0x78;
 
-    commands[0x3F] = crc8ccitt(commands+1, 62);
+    commands[0x3F] = crc8ccitt( commands + 1, 62 );
 
     rr = dev->lowlevel->write( handle, dev->write_endpoint, commands, 64 );
     rr = dev->lowlevel->read( handle, dev->read_endpoint, response, 64 );
+
+    // for ( int i = 0; i < messageLength; i++ )
+    // {
+    //     char* logMessage[6];
+    //     sprintf( logMessage, "%02d %02x\n", i, commands[i] );
+    //     msg_info( logMessage );
+    // }
+
+    // for ( int i = 0; i < messageLength; i++ )
+    // {
+    //     char* logMessage[6];
+    //     sprintf( logMessage, "%02d %02x\n", i, response[i] );
+    //     msg_info( logMessage );
+    // }
 
     // *(temperature) = (response[5]<<8) + response[4];
     *( temperature ) = (double)response[8] + ( (double)response[7] / 256 );

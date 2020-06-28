@@ -19,8 +19,8 @@
 #include "device.h"
 #include "driver.h"
 #include "logic/options.h"
-#include "logic/scan.h"
 #include "logic/print.h"
+#include "logic/scan.h"
 
 #include <errno.h>
 #include <libusb.h>
@@ -94,56 +94,57 @@ hydro_platinum_settings(
     msg_info(
         "\tCurrent/Max Speed %i/%i RPM\n", readings.pump_ctrl.speed, readings.pump_ctrl.max_speed );
 
-    // if ( flags.set_led == 1 )
-    // {
-    //     msg_debug( "Setting LED Flag found\n" );
-    //     switch ( settings.led_ctrl.mode )
-    //     {
-    //     case BLINK:
-    //         msg_debug( "Setting LED to BLINK\n" );
-    //         if ( dev->driver->led.blink != NULL )
-    //         {
-    //             rr = dev->driver->led.blink( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     case PULSE:
-    //         msg_debug( "Setting LED to PULSE\n" );
-    //         if ( dev->driver->led.color_pulse != NULL )
-    //         {
-    //             rr = dev->driver->led.color_pulse( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     case SHIFT:
-    //         msg_debug( "Setting LED to SHIFT\n" );
-    //         if ( dev->driver->led.color_shift != NULL )
-    //         {
-    //             rr = dev->driver->led.color_shift( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     case RAINBOW:
-    //         msg_debug( "Setting LED to RAINBOW\n" );
-    //         if ( dev->driver->led.rainbow != NULL )
-    //         {
-    //             rr = dev->driver->led.rainbow( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     case TEMPERATURE:
-    //         msg_debug( "Setting LED to TEMPERATURE\n" );
-    //         if ( dev->driver->led.temperature != NULL )
-    //         {
-    //             rr = dev->driver->led.temperature( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     case STATIC:
-    //     default:
-    //         msg_debug( "Setting LED STATIC\n" );
-    //         if ( dev->driver->led.static_color != NULL )
-    //         {
-    //             rr = dev->driver->led.static_color( dev, handle, &settings.led_ctrl );
-    //         }
-    //         break;
-    //     }
-    // }
+    msg_info( "PIE %s\n", name );
+    if ( flags.set_led == 1 )
+    {
+        msg_info( "Setting LED Flag found\n" );
+        switch ( settings.led_ctrl.mode )
+        {
+        // case BLINK:
+        //     msg_debug( "Setting LED to BLINK\n" );
+        //     if ( dev->driver->led.blink != NULL )
+        //     {
+        //         rr = dev->driver->led.blink( dev, handle, &settings.led_ctrl );
+        //     }
+        //     break;
+        // case PULSE:
+        //     msg_debug( "Setting LED to PULSE\n" );
+        //     if ( dev->driver->led.color_pulse != NULL )
+        //     {
+        //         rr = dev->driver->led.color_pulse( dev, handle, &settings.led_ctrl );
+        //     }
+        //     break;
+        // case SHIFT:
+        //     msg_debug( "Setting LED to SHIFT\n" );
+        //     if ( dev->driver->led.color_shift != NULL )
+        //     {
+        //         rr = dev->driver->led.color_shift( dev, handle, &settings.led_ctrl );
+        //     }
+        //     break;
+        // case RAINBOW:
+        //     msg_debug( "Setting LED to RAINBOW\n" );
+        //     if ( dev->driver->led.rainbow != NULL )
+        //     {
+        //         rr = dev->driver->led.rainbow( dev, handle, &settings.led_ctrl );
+        //     }
+        //     break;
+        // case TEMPERATURE:
+        //     msg_debug( "Setting LED to TEMPERATURE\n" );
+        //     if ( dev->driver->led.temperature != NULL )
+        //     {
+        //         rr = dev->driver->led.temperature( dev, handle, &settings.led_ctrl );
+        //     }
+        //     break;
+        case STATIC:
+        default:
+            msg_debug( "Setting LED STATIC\n" );
+            if ( dev->driver->led.static_color != NULL )
+            {
+                rr = dev->driver->led.static_color( dev, handle, &settings.led_ctrl );
+            }
+            break;
+        }
+    }
     //
     // if ( flags.set_fan == 1 )
     // {
@@ -152,13 +153,15 @@ hydro_platinum_settings(
     //     case QUIET:
     //         if ( dev->driver->fan.profile.write_profile_quiet != NULL )
     //         {
-    //             dev->driver->fan.profile.write_profile_quiet( dev, handle, &settings.fan_ctrl );
+    //             dev->driver->fan.profile.write_profile_quiet( dev, handle, &settings.fan_ctrl
+    //             );
     //         }
     //         break;
     //     case BALANCED:
     //         if ( dev->driver->fan.profile.write_profile_balanced != NULL )
     //         {
-    //             dev->driver->fan.profile.write_profile_balanced( dev, handle, &settings.fan_ctrl );
+    //             dev->driver->fan.profile.write_profile_balanced( dev, handle,
+    //             &settings.fan_ctrl );
     //         }
     //         break;
     //     case PERFORMANCE:
@@ -171,7 +174,8 @@ hydro_platinum_settings(
     //     case CUSTOM:
     //         if ( dev->driver->fan.profile.write_custom_curve != NULL )
     //         {
-    //             dev->driver->fan.profile.write_custom_curve( dev, handle, &settings.fan_ctrl );
+    //             dev->driver->fan.profile.write_custom_curve( dev, handle, &settings.fan_ctrl
+    //             );
     //         }
     //         break;
     //     default:
@@ -187,14 +191,14 @@ hydro_platinum_settings(
     //     switch ( settings.pump_ctrl.mode )
     //     {
     //     case QUIET:
-    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl );
-    //         break;
+    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl
+    //         ); break;
     //     case BALANCED:
-    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl );
-    //         break;
+    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl
+    //         ); break;
     //     case PERFORMANCE:
-    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl );
-    //         break;
+    //         dev->driver->pump.profile.write_profile_default( dev, handle, &settings.pump_ctrl
+    //         ); break;
     //     case CUSTOM:
     //     default:
     //         dev->driver->pump.profile.write_custom_curve( dev, handle, &settings.pump_ctrl );

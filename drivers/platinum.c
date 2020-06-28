@@ -16,11 +16,13 @@
  * along with OpenCorsairLink.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "driver.h"
-#include "device.h"
-#include "logic/print.h"
 #include "lowlevel/platinum.h"
+
+#include "device.h"
+#include "driver.h"
+#include "logic/print.h"
 #include "protocol/platinum.h"
+#include "unsupported.h"
 
 struct corsair_lowlevel_driver corsairlink_lowlevel_platinum = {
     .init = corsairlink_platinum_init,
@@ -42,12 +44,12 @@ struct corsair_device_driver corsairlink_driver_platinum = {
         },
     .led =
         {
-            // .static_color = corsairlink_platinum_change_led,
-            // .blink = corsairlink_unsupported_led,
-            // .color_pulse = corsairlink_unsupported_led,
-            // .color_shift = corsairlink_unsupported_led,
-            // .rainbow = corsairlink_unsupported_led,
-            // .temperature = corsairlink_unsupported_led,
+            .static_color = corsairlink_platinum_change_led,
+            .blink = corsairlink_unsupported_led,
+            .color_pulse = corsairlink_unsupported_led,
+            .color_shift = corsairlink_unsupported_led,
+            .rainbow = corsairlink_unsupported_led,
+            .temperature = corsairlink_unsupported_led,
         },
     .fan =
         {
